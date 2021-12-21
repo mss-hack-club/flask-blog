@@ -11,6 +11,7 @@ flask-sqlalchemy = "*"
 flask-login = "*"
 flask-mail = "*"
 flask-bcrypt = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
