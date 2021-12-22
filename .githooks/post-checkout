@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pipenv install
+cp /home/cypher/Programming/flask-blog/.env .
