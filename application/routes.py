@@ -1,5 +1,7 @@
 from flask.templating import render_template
 from application import app
+from flask_login import login_user, current_user, logout_user, login_required
+from application.forms import LoginForm
 
 
 @app.route('/')
@@ -10,9 +12,10 @@ def home():
 
 @app.route('/login')
 def login():
-    return render_template('login.html', title="Login")
+    form = LoginForm()
+    return render_template('login.html', title="Login", form=form)
 
 
 @app.route('/register')
 def register():
-    return render_template('register.html', title="Login")
+    return render_template('register.html', title="Register")

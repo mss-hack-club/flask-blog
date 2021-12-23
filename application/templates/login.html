@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <h1 class="title">Log In</h1>
+    <div class="field">
+        {{ form.email.label(class="label") }}
+        <div class="control has-icons-left has-icons-right">
+            {{ form.email(class="input", placeholder="Email", type="email") }}
+            <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        {{ form.password.label(class="label") }}
+        <div class="control has-icons-left has-icons-right">
+            {{ form.password(class="input", placeholder="Password", type="password") }}
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field is-grouped">
+        <div class="control">
+            {{ form.submit(class="button is-link") }}
+        </div>
+    </div>
+</form>
+{% endblock content %}
