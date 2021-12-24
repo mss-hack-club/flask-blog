@@ -3,7 +3,7 @@
 {% block content %}
 <form method="POST" action="">
     {{ form.hidden_tag() }}
-    <h1 class="title">New Post</h1>
+    <h1 class="title">{{ legend }}</h1>
     <div class="field">
         {{ form.title.label(class="label") }}
         <div class="control has-icons-left has-icons-right">
