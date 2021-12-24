@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <h1 class="title">New Post</h1>
+    <div class="field">
+        {{ form.title.label(class="label") }}
+        <div class="control has-icons-left has-icons-right">
+            {{ form.title(class="input", placeholder="Title") }}
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        {{ form.content.label(class="label") }}
+        <div class="control has-icons-left has-icons-right">
+            {{ form.content(class="input", placeholder="Content") }}
+            <span class="icon is-small is-left">
+                <i class="fas fa-align-left"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            {{ form.submit(class="button is-link") }}
+        </div>
+    </div>
+</form>
+{% endblock content %}
