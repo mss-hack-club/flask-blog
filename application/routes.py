@@ -70,7 +70,7 @@ def account():
     return render_template('account.html', title="Account", form=form)
 
 
-@app.route('/post/new')
+@app.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
