@@ -14,7 +14,7 @@ def home():
     return render_template('home.html', title="Home")
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -31,12 +31,13 @@ def login():
     return render_template('login.html', title="Login", form=form)
 
 
+@app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
