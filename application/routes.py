@@ -1,11 +1,12 @@
 from flask.helpers import url_for
 from flask.templating import render_template
 from werkzeug.utils import redirect
-from application import app, db
+from application import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from application.forms import LoginForm, PostForm, RegistrationForm
-from application.models import Post
+from application.models import Post, User
 from flask import flash, abort, request
+
 
 @app.route('/')
 @app.route('/home')
@@ -15,13 +16,40 @@ def home():
 
 @app.route('/login')
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            # gets the next page to go to if redirected to the login page
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('Login unsuccessful. Please check your email and username.', 'danger')
     return render_template('login.html', title="Login", form=form)
+
+
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 @app.route('/register')
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
+        user = User(username=form.username.data,
+                    email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created!', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
 
 
