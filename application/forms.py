@@ -29,7 +29,7 @@ class RegistrationForm(FlaskForm):
                 'That email is taken. Please choose a different one.')
 
 
-class UpdateForm(FlaskForm):
+class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[
         DataRequired(), Length(min=2, max=2)
     ])
