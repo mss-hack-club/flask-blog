@@ -1,5 +1,7 @@
 {% extends "layout.html" %} {% block content %}
 <h1 class="title is-1">All Posts</h1>
+{% if posts %}
+{% for post in posts %}
 <div class="card mb-3">
     <div class="card-content">
         <div class="level">
@@ -7,7 +9,7 @@
                 <div class="level-item">
                     <div>
                         <div class="title is-4">
-                            Post Title
+                            {{ post.title }}
                         </div>
                     </div>
                 </div>
@@ -15,76 +17,28 @@
             <div class="level-right">
                 <div class="level-item">
                     <div class="buttons">
-                        <a href="" class="button is-link">Test</a>
-                        <a href="" class="button is-danger">Test</a>
+                        <a href="{{ url_for('post', post_id=post.id) }}" class="button is-link">View Post</a>
+                        {% if post.author == current_user %}
+                        <a href="{{ url_for('update_post', post_id=post.id) }}" class="button is-link">Update Post</a>
+                        <a href="{{ url_for('delete_post', post_id=post.id) }}" class="button is-danger">Delete Post</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
         <div class="subtitle is-6 is-italic">
-            Author Name on Date Created
+            {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}
         </div>
         <div class="content">
-            Post Content
+            {{ post.content }}
         </div>
     </div>
 </div>
-<div class="card mb-3">
-    <div class="card-content">
-        <div class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <div>
-                        <div class="title is-4">
-                            Post Title
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="level-right">
-                <div class="level-item">
-                    <div class="buttons">
-                        <a href="" class="button is-link">Test</a>
-                        <a href="" class="button is-danger">Test</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="subtitle is-6 is-italic">
-            Author Name on Date Created
-        </div>
-        <div class="content">
-            Post Content
-        </div>
-    </div>
+{% endfor %}
+{% else %}
+<div class="has-text-centered">
+    <div class="title">No posts yet.</div>
+    <div class="subtitle">You can create a post by clicking on the 'New Post' button in the navbar.</div>
 </div>
-<div class="card mb-3">
-    <div class="card-content">
-        <div class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <div>
-                        <div class="title is-4">
-                            Post Title
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="level-right">
-                <div class="level-item">
-                    <div class="buttons">
-                        <a href="" class="button is-link">Test</a>
-                        <a href="" class="button is-danger">Test</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="subtitle is-6 is-italic">
-            Author Name on Date Created
-        </div>
-        <div class="content">
-            Post Content
-        </div>
-    </div>
-</div>
+{% endif %}
 {% endblock content %}

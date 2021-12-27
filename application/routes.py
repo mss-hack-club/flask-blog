@@ -11,7 +11,8 @@ from flask import flash, abort, request
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', title="Home")
+    posts = Post.query.all()
+    return render_template('home.html', title="Home", posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -106,10 +107,10 @@ def update_post(post_id):
     elif request.method == "GET":
         form.title.data = post.title
         form.content.data = post.content
-    return render_template('create_post.html', title="Update Post")
+    return render_template('create_post.html', title="Update Post", form=form)
 
 
-@app.route('/post/<int:post_id>/update', methods=['POST'])
+@app.route('/post/<int:post_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
