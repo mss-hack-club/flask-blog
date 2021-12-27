@@ -29,6 +29,12 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login unsuccessful. Please check your email and username.', 'danger')
+    else:
+        errors = ""
+        for err in form.errors.values():
+            errors += err[0] + "\n"
+        if errors:
+            flash(errors, "danger")
     return render_template('login.html', title="Login", form=form)
 
 
@@ -52,6 +58,12 @@ def register():
         db.session.commit()
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
+    else:
+        errors = ""
+        for err in form.errors.values():
+            errors += err[0] + "\n"
+        if errors:
+            flash(errors, "danger")
     return render_template('register.html', title="Register", form=form)
 
 
@@ -62,12 +74,22 @@ def account():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.email = form.email.data
+        if form.password.data:
+            hashed_password = bcrypt.generate_password_hash(
+                form.password.data).decode('utf-8')
+            current_user.password = hashed_password
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+    else:
+        errors = ""
+        for err in form.errors.values():
+            errors += err[0] + "\n"
+        if errors:
+            flash(errors, "danger")
     return render_template('account.html', title="Account", form=form)
 
 
@@ -82,6 +104,12 @@ def new_post():
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
+    else:
+        errors = ""
+        for err in form.errors.values():
+            errors += err[0] + "\n"
+        if errors:
+            flash(errors, "danger")
     return render_template('create_post.html', title="Create Post", form=form, legend="Create Post")
 
 
@@ -107,6 +135,12 @@ def update_post(post_id):
     elif request.method == "GET":
         form.title.data = post.title
         form.content.data = post.content
+    else:
+        errors = ""
+        for err in form.errors.values():
+            errors += err[0] + "\n"
+        if errors:
+            flash(errors, "danger")
     return render_template('create_post.html', title="Update Post", form=form)
 
 
