@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields.simple import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
 from application.models import User
+from flask_login import current_user
 
 
 class RegistrationForm(FlaskForm):
@@ -31,24 +32,30 @@ class RegistrationForm(FlaskForm):
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[
-        DataRequired(), Length(min=2, max=2)
+        DataRequired(), Length(min=2, max=200)
     ])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[
+        DataRequired(), EqualTo('password')])
     submit = SubmitField('Update Settings')
 
+    # function to make sure the name is not taken
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
 
-        if user:
-            raise ValidationError(
-                'That username is taken. Please choose a different one.')
+            if user:
+                raise ValidationError(
+                    'That username is taken. Please choose a different one.')
 
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+    def validate_email(self, email):  # function to make sure the email is not taken
+        if email.data != current_user.email:
+            email = User.query.filter_by(email=email.data).first()
 
-        if user:
-            raise ValidationError(
-                'That email is taken. Please choose a different one.')
+            if email:
+                raise ValidationError(
+                    'That email is taken. Please choose a different one.')
 
 
 class LoginForm(FlaskForm):
