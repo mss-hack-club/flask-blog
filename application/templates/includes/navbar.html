@@ -29,11 +29,11 @@
                     <a class="button is-info" href="{{ url_for('register') }}">
                         <strong>Sign up</strong>
                     </a>
-                    <a href="{{ url_for('account') }}" class="button is-light">Log in</a>
+                    <a href="{{ url_for('login') }}" class="button is-light">Log in</a>
                 </div>
                 {% else %}
                 <div class="buttons">
-                    <a class="button is-info" href="{{ url_for('register') }}">
+                    <a class="button is-info" href="{{ url_for('account') }}">
                         <strong>Edit Account</strong>
                     </a>
                     <a href="{{ url_for('logout') }}" class="button is-light">Log Out</a>
