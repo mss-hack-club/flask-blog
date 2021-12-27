@@ -141,7 +141,8 @@ def update_post(post_id):
             errors += err[0] + "\n"
         if errors:
             flash(errors, "danger")
-    return render_template('create_post.html', title="Update Post", form=form)
+    return render_template('create_post.html', title="Update Post",
+                           form=form, legend="Update Post")
 
 
 @app.route('/post/<int:post_id>/delete', methods=['GET', 'POST'])
