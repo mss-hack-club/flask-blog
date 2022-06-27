@@ -2,7 +2,7 @@
 
 Source code for the Intermediate/Advanced batch flask blog project.
 
-## Screenshots
+## Showcase (Screenshots)
 
 Some screenshots of the finished product:
 
